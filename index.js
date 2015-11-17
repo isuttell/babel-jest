@@ -35,8 +35,11 @@ function shouldInclude(filename) {
 
 module.exports = {
   process: function (src, filename) {
-
-    if (shouldInclude(filename) && babel.util.canCompile(filename)) {
+    if (minimatch(filename, '*.css', {
+      matchBase: true
+    })) {
+      return 'module.exports = {};';
+    } else if (shouldInclude(filename) && babel.util.canCompile(filename)) {
       return babel.transform(src, {
         filename: filename,
         retainLines: true
